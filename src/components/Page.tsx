@@ -1,58 +1,18 @@
-import { useState } from "react";
-
 import Header from "./Header";
-import Main from "./Main";
-import EmployeeForm from "./EmployeeForm";
 import Footer from "./Footer";
 
-import employeesData from "../data/employees.json";
+type PageProps = {
+  children: React.ReactNode;
+};
 
-import type {
-  Employee,
-} from "../types/Employee";
-
-function Page() {
-  const [
-    employees,
-    setEmployees,
-  ] = useState<Employee[]>(
-    employeesData
-  );
-
-  const departments = [
-    ...new Set(
-      employees.map(
-        (employee) =>
-          employee.department
-      )
-    ),
-  ];
-
-  function addEmployee(
-    newEmployee: Employee
-  ) {
-    setEmployees([
-      ...employees,
-      newEmployee,
-    ]);
-  }
-
+function Page({
+  children,
+}: PageProps) {
   return (
     <>
       <Header />
 
-      <Main
-        employees={employees}
-      />
-
-      <EmployeeForm
-        departments={
-          departments
-        }
-        onAddEmployee={
-          addEmployee
-        }
-      />
+      {children}
 
       <Footer />
     </>

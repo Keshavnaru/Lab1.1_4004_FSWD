@@ -1,82 +1,165 @@
-import { useState } from "react";
-import type { Employee } from "../types/Employee";
+import type {
+  FormEvent,
+} from "react";
+
+import useFormInput from "../hooks/useFormInput";
+import employeeService from "../services/employeeService";
+
+import type {
+  Employee,
+} from "../types/Employee";
 
 type EmployeeFormProps = {
   departments: string[];
-  onAddEmployee: (employee: Employee) => void;
+
+  onEmployeeAdded:
+    (employee: Employee) => void;
 };
 
 function EmployeeForm({
   departments,
-  onAddEmployee,
+  onEmployeeAdded,
 }: EmployeeFormProps) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [position, setPosition] = useState("");
-  const [department, setDepartment] = useState(
-    departments[0] || ""
-  );
+  const firstName =
+    useFormInput();
 
-  const [error, setError] = useState("");
+  const lastName =
+    useFormInput();
+
+  const position =
+    useFormInput();
+
+  const department =
+    useFormInput(
+      departments[0] || ""
+    );
 
   function handleSubmit(
-    event: React.FormEvent<HTMLFormElement>
+    event: FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
 
-    // Clear old validation message
-    setError("");
+    // Clear old messages
+    firstName.setMessage("");
+    lastName.setMessage("");
+    position.setMessage("");
+    department.setMessage("");
 
-    if (firstName.trim().length < 3) {
-      setError(
-        "First name must have at least 3 characters."
+    // Hook validation
+    const firstNameValid =
+      firstName.validate(
+        (value) =>
+          value.trim().length >= 3
+            ? ""
+            : "First name must have at least 3 characters."
       );
 
-      return;
-    }
-
-    if (!department) {
-      setError(
-        "Please select a department."
+    const departmentValid =
+      department.validate(
+        (value) =>
+          departments.includes(
+            value
+          )
+            ? ""
+            : "Please select an existing department."
       );
 
+    if (
+      !firstNameValid ||
+      !departmentValid
+    ) {
       return;
     }
 
     const newEmployee: Employee = {
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      position: position.trim(),
-      department,
+      firstName:
+        firstName.value.trim(),
+
+      lastName:
+        lastName.value.trim(),
+
+      position:
+        position.value.trim(),
+
+      department:
+        department.value,
     };
 
-    onAddEmployee(newEmployee);
+    const result =
+      employeeService.createEmployee(
+        newEmployee
+      );
 
-    setFirstName("");
-    setLastName("");
-    setPosition("");
-    setDepartment(
+    if (!result.success) {
+      if (
+        result.field ===
+        "firstName"
+      ) {
+        firstName.setMessage(
+          result.message || ""
+        );
+      }
+
+      if (
+        result.field ===
+        "department"
+      ) {
+        department.setMessage(
+          result.message || ""
+        );
+      }
+
+      return;
+    }
+
+    if (result.employee) {
+      onEmployeeAdded(
+        result.employee
+      );
+    }
+
+    firstName.clear();
+    lastName.clear();
+    position.clear();
+
+    department.setValue(
       departments[0] || ""
     );
   }
 
   return (
     <section className="employee-form">
-      <h2>Add Employee</h2>
+      <h2>
+        Add Employee
+      </h2>
 
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={
+          handleSubmit
+        }
+      >
         <label>
           First Name
 
           <input
             type="text"
-            value={firstName}
+            value={
+              firstName.value
+            }
             onChange={(event) =>
-              setFirstName(
+              firstName.setValue(
                 event.target.value
               )
             }
           />
+
+          {firstName.message && (
+            <span className="error-message">
+              {
+                firstName.message
+              }
+            </span>
+          )}
         </label>
 
         <label>
@@ -84,9 +167,11 @@ function EmployeeForm({
 
           <input
             type="text"
-            value={lastName}
+            value={
+              lastName.value
+            }
             onChange={(event) =>
-              setLastName(
+              lastName.setValue(
                 event.target.value
               )
             }
@@ -98,9 +183,11 @@ function EmployeeForm({
 
           <input
             type="text"
-            value={position}
+            value={
+              position.value
+            }
             onChange={(event) =>
-              setPosition(
+              position.setValue(
                 event.target.value
               )
             }
@@ -111,31 +198,35 @@ function EmployeeForm({
           Department
 
           <select
-            value={department}
+            value={
+              department.value
+            }
             onChange={(event) =>
-              setDepartment(
+              department.setValue(
                 event.target.value
               )
             }
           >
             {departments.map(
-              (departmentName) => (
+              (name) => (
                 <option
-                  key={departmentName}
-                  value={departmentName}
+                  key={name}
+                  value={name}
                 >
-                  {departmentName}
+                  {name}
                 </option>
               )
             )}
           </select>
-        </label>
 
-        {error && (
-          <p className="error-message">
-            {error}
-          </p>
-        )}
+          {department.message && (
+            <span className="error-message">
+              {
+                department.message
+              }
+            </span>
+          )}
+        </label>
 
         <button type="submit">
           Add Employee

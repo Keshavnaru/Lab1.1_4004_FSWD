@@ -1,26 +1,31 @@
-import { useState } from "react";
+import {
+  useState,
+} from "react";
 
 import Main from "../components/Main";
 import EmployeeForm from "../components/EmployeeForm";
 
-import employeesData from "../data/employees.json";
+import employeeService from "../services/employeeService";
 
-import type { Employee } from "../types/Employee";
+import type {
+  Employee,
+} from "../types/Employee";
 
 function EmployeesPage() {
-  const [employees, setEmployees] =
-    useState<Employee[]>(employeesData);
+  const data =
+    employeeService.getEmployeeData();
 
-  const departments = [
-    ...new Set(
-      employees.map(
-        (employee) =>
-          employee.department
-      )
-    ),
-  ];
+  const [
+    employees,
+    setEmployees,
+  ] = useState<Employee[]>(
+    data.employees
+  );
 
-  function addEmployee(
+  const departments =
+    data.departments;
+
+  function employeeAdded(
     employee: Employee
   ) {
     setEmployees([
@@ -31,11 +36,19 @@ function EmployeesPage() {
 
   return (
     <>
-      <Main employees={employees} />
+      <Main
+        employees={
+          employees
+        }
+      />
 
       <EmployeeForm
-        departments={departments}
-        onAddEmployee={addEmployee}
+        departments={
+          departments
+        }
+        onEmployeeAdded={
+          employeeAdded
+        }
       />
     </>
   );
