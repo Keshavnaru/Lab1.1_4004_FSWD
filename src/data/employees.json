@@ -1,0 +1,26 @@
+[
+  {
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "position": "HR Manager",
+    "department": "Human Resources"
+  },
+  {
+    "firstName": "David",
+    "lastName": "Smith",
+    "position": "HR Assistant",
+    "department": "Human Resources"
+  },
+  {
+    "firstName": "John",
+    "lastName": "Brown",
+    "position": "Software Developer",
+    "department": "Information Technology"
+  },
+  {
+    "firstName": "Emily",
+    "lastName": "Wilson",
+    "position": "IT Support Technician",
+    "department": "Information Technology"
+  }
+]

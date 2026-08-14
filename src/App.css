@@ -1,0 +1,53 @@
+header {
+  background-color: white;
+  text-align: center;
+  padding: 25px;
+  border-bottom: 4px solid #273d91;
+}
+
+.logo {
+  width: 220px;
+  max-width: 100%;
+}
+
+header h1 {
+  color: #273d91;
+}
+
+header p {
+  color: #666;
+}
+
+main {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+main h2 {
+  color: #273d91;
+}
+
+.employee-list {
+  display: grid;
+  gap: 15px;
+}
+
+.employee-card {
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-left: 5px solid #27a8df;
+}
+
+.employee-card h3 {
+  color: #273d91;
+  margin-top: 0;
+}
+
+footer {
+  background-color: #273d91;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
