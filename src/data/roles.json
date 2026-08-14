@@ -1,0 +1,17 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Smith",
+    "role": "Chief Executive Officer"
+  },
+  {
+    "firstName": "Sarah",
+    "lastName": "Brown",
+    "role": "Finance Manager"
+  },
+  {
+    "firstName": "Michael",
+    "lastName": "Lee",
+    "role": "Operations Manager"
+  }
+]

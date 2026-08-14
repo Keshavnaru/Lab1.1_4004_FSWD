@@ -92,3 +92,25 @@ footer {
   color: red;
   font-weight: bold;
 }
+.navbar {
+  background-color: #273d91;
+  padding: 12px;
+  text-align: center;
+}
+
+.navbar a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+.organization-list {
+  background-color: white;
+}
+
+.organization-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
