@@ -51,3 +51,44 @@ footer {
   text-align: center;
   padding: 15px;
 }
+.employee-form {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
+}
+
+.employee-form h2 {
+  color: #273d91;
+}
+
+.employee-form form {
+  display: grid;
+  gap: 15px;
+}
+
+.employee-form label {
+  display: grid;
+  gap: 5px;
+}
+
+.employee-form input,
+.employee-form select {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.employee-form button {
+  width: 150px;
+  padding: 10px;
+  background-color: #273d91;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}

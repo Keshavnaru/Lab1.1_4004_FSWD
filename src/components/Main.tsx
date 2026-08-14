@@ -1,31 +1,48 @@
-import employeesData from "../data/employees.json";
 import type { Employee } from "../types/Employee";
 
-function Main() {
-  const employees: Employee[] = employeesData;
+type MainProps = {
+  employees: Employee[];
+};
+
+function Main({ employees }: MainProps) {
+  const departments = [
+    ...new Set(
+      employees.map(
+        (employee) => employee.department
+      )
+    ),
+  ];
 
   return (
     <main>
       <h2>Our Employees</h2>
 
-      <div className="employee-list">
-        {employees.map((employee) => (
-          <div
-            className="employee-card"
-            key={employee.firstName + employee.lastName}
-          >
-            <h3>
-              {employee.firstName} {employee.lastName}
-            </h3>
+      {departments.map((department) => (
+        <section key={department}>
+          <h3>{department}</h3>
 
-            <p>{employee.position}</p>
+          <div className="employee-list">
+            {employees
+              .filter(
+                (employee) =>
+                  employee.department === department
+              )
+              .map((employee, index) => (
+                <div
+                  className="employee-card"
+                  key={`${employee.firstName}-${employee.lastName}-${index}`}
+                >
+                  <h4>
+                    {employee.firstName}{" "}
+                    {employee.lastName}
+                  </h4>
 
-            <p>
-              <strong>Department:</strong> {employee.department}
-            </p>
+                  <p>{employee.position}</p>
+                </div>
+              ))}
           </div>
-        ))}
-      </div>
+        </section>
+      ))}
     </main>
   );
 }
