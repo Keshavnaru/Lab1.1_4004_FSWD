@@ -1,29 +1,13 @@
-import {
-  useState,
-} from "react";
+import { useState } from "react";
 
-function useFormInput(
-  startingValue = ""
-) {
-  const [
-    value,
-    setValue,
-  ] = useState(
-    startingValue
-  );
-
-  const [
-    message,
-    setMessage,
-  ] = useState("");
+function useFormInput(startingValue = "") {
+  const [value, setValue] = useState(startingValue);
+  const [message, setMessage] = useState("");
 
   function validate(
-    validator: (
-      value: string
-    ) => string
+    validator: (value: string) => string
   ) {
-    const result =
-      validator(value);
+    const result = validator(value);
 
     setMessage(result);
 

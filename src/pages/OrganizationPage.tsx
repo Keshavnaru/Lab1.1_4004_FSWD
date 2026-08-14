@@ -1,9 +1,21 @@
-import rolesData from "../data/roles.json";
+import { useState } from "react";
+
+import RoleForm from "../components/RoleForm";
+import roleService from "../services/roleService";
+
 import type { Role } from "../types/Role";
 
 function OrganizationPage() {
-  const roles: Role[] =
-    rolesData;
+  const [roles, setRoles] =
+    useState<Role[]>(
+      roleService.getRoles()
+    );
+
+  function refreshRoles() {
+    setRoles(
+      roleService.getRoles()
+    );
+  }
 
   return (
     <main>
@@ -13,13 +25,10 @@ function OrganizationPage() {
 
       <div className="organization-list">
         {roles.map(
-          (person) => (
+          (person, index) => (
             <div
               className="organization-row"
-              key={
-                person.firstName +
-                person.lastName
-              }
+              key={`${person.firstName}-${person.lastName}-${index}`}
             >
               <span>
                 {person.firstName}{" "}
@@ -33,6 +42,10 @@ function OrganizationPage() {
           )
         )}
       </div>
+
+      <RoleForm
+        onRoleAdded={refreshRoles}
+      />
     </main>
   );
 }
